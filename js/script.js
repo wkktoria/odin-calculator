@@ -16,17 +16,31 @@ buttons.forEach((button) =>
     } else if (button.value === "equal") {
       if (current) {
         if (next && operation) {
-          current = operate(operation, parseFloat(current), parseFloat(next));
-          next = null;
-          operation = "equal";
-          display.textContent = current;
+          if (operation === "divide" && next === "0") {
+            current = null;
+            next = null;
+            operation = null;
+            display.textContent = "Cannot divide by 0";
+          } else {
+            current = operate(operation, parseFloat(current), parseFloat(next));
+            next = null;
+            operation = "equal";
+            display.textContent = current;
+          }
         }
       }
     } else if (current && next && isOperation(button.value)) {
-      current = operate(operation, parseFloat(current), parseFloat(next));
-      next = null;
-      operation = button.value;
-      display.textContent = current + getOperator(operation);
+      if (operation === "divide" && next === "0") {
+        current = null;
+        next = null;
+        operation = null;
+        display.textContent = "Cannot divide by 0";
+      } else {
+        current = operate(operation, parseFloat(current), parseFloat(next));
+        next = null;
+        operation = button.value;
+        display.textContent = current + getOperator(operation);
+      }
     } else if (current && isOperation(button.value)) {
       operation = button.value;
       display.textContent = current + getOperator(operation);
