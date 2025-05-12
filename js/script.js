@@ -1,6 +1,6 @@
-let current = undefined;
-let next = undefined;
-let operation = undefined;
+let current;
+let next;
+let operation;
 
 const display = document.querySelector(".display");
 const equalsButton = document.querySelector("#equals");
@@ -9,22 +9,22 @@ const buttons = document.querySelectorAll(".button");
 buttons.forEach((button) =>
   button.addEventListener("click", () => {
     if (button.value === "clear") {
-      current = undefined;
-      next = undefined;
-      operation = undefined;
+      current = null;
+      next = null;
+      operation = null;
       display.textContent = "0";
     } else if (button.value === "equal") {
       if (current) {
         if (next && operation) {
           current = operate(operation, parseFloat(current), parseFloat(next));
-          next = undefined;
+          next = null;
           operation = "equal";
           display.textContent = current;
         }
       }
     } else if (current && next && isOperation(button.value)) {
       current = operate(operation, parseFloat(current), parseFloat(next));
-      next = undefined;
+      next = null;
       operation = button.value;
       display.textContent = current + getOperator(operation);
     } else if (current && isOperation(button.value)) {
@@ -40,7 +40,7 @@ buttons.forEach((button) =>
     } else if (!isNaN(parseInt(button.value))) {
       if (operation === "equal") {
         current = `${button.value}`;
-        operation = undefined;
+        operation = null;
       } else {
         if (!current) {
           current = `${button.value}`;
@@ -64,7 +64,7 @@ const operate = (operation, firstNumber, secondNumber) => {
     case "divide":
       return parseFloat((firstNumber / secondNumber).toFixed(2));
     default:
-      return undefined;
+      return null;
   }
 };
 
@@ -83,6 +83,6 @@ const getOperator = (operation) => {
     case "divide":
       return "÷";
     default:
-      return "undefined";
+      return null;
   }
 };
