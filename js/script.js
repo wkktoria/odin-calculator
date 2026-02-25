@@ -21,6 +21,27 @@ buttons.forEach((button) =>
         current = (parseFloat(current) * -1).toString();
         display.textContent = current;
       }
+    } else if (button.value === "decimal") {
+      if (current && operation && operation !== "equal") {
+        if (!next) {
+          next = "0.";
+        } else if (!next.includes(".")) {
+          next += ".";
+        }
+        display.textContent = current + getOperator(operation) + next;
+      } else {
+        if (operation === "equal") {
+          current = "0.";
+          operation = null;
+        } else {
+          if (current === null) {
+            current = "0.";
+          } else if (!current.includes(".")) {
+            current += ".";
+          }
+        }
+        display.textContent = current;
+      }
     } else if (button.value === "equal") {
       if (current) {
         if (next && operation) {
