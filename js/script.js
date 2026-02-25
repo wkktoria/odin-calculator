@@ -1,6 +1,6 @@
-let current;
-let next;
-let operation;
+let current = null;
+let next = null;
+let operation = null;
 
 const display = document.querySelector(".display");
 const equalsButton = document.querySelector("#equals");
@@ -13,6 +13,14 @@ buttons.forEach((button) =>
       next = null;
       operation = null;
       display.textContent = "0";
+    } else if (button.value === "plus-minus") {
+      if (next !== null && operation && operation !== "equal") {
+        next = (parseFloat(next) * -1).toString();
+        display.textContent = current + getOperator(operation) + next;
+      } else if (current !== null) {
+        current = (parseFloat(current) * -1).toString();
+        display.textContent = current;
+      }
     } else if (button.value === "equal") {
       if (current) {
         if (next && operation) {
@@ -64,7 +72,7 @@ buttons.forEach((button) =>
       }
       display.textContent = current;
     }
-  })
+  }),
 );
 
 const operate = (operation, firstNumber, secondNumber) => {
