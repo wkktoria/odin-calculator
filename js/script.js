@@ -21,6 +21,24 @@ buttons.forEach((button) =>
         current = (parseFloat(current) * -1).toString();
         display.textContent = current;
       }
+    } else if (button.value === "undo") {
+      if (next !== null && operation && operation !== "equal") {
+        if (next.length > 1) {
+          next = next.slice(0, -1);
+        } else {
+          next = null;
+        }
+        display.textContent = next
+          ? current + getOperator(operation) + next
+          : current + getOperator(operation);
+      } else if (current !== null && operation !== "equal") {
+        if (current.length > 1) {
+          current = current.slice(0, -1);
+        } else {
+          current = null;
+        }
+        display.textContent = current || "0";
+      }
     } else if (button.value === "decimal") {
       if (current && operation && operation !== "equal") {
         if (!next) {
@@ -157,23 +175,7 @@ document.addEventListener("keydown", (event) => {
   } else if (key === "Escape") {
     button = Array.from(buttons).find((btn) => btn.value === "clear");
   } else if (key === "Backspace") {
-    if (next !== null && operation && operation !== "equal") {
-      if (next.length > 1) {
-        next = next.slice(0, -1);
-      } else {
-        next = null;
-      }
-      display.textContent = next
-        ? current + getOperator(operation) + next
-        : current + getOperator(operation);
-    } else if (current !== null && operation !== "equal") {
-      if (current.length > 1) {
-        current = current.slice(0, -1);
-      } else {
-        current = null;
-      }
-      display.textContent = current || "0";
-    }
+    button = Array.from(buttons).find((btn) => btn.value === "undo");
   } else if (key === ".") {
     button = Array.from(buttons).find((btn) => btn.value === "decimal");
   }
