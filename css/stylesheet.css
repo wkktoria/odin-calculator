@@ -97,6 +97,7 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   font-size: 2rem;
   cursor: pointer;
+  transition: transform 0.1s opacity 0.1s;
 }
 
 .buttons .button:hover {
@@ -113,6 +114,11 @@ h1 {
 
 .buttons .button.faded {
   background: rgba(142, 158, 171, 0.75);
+}
+
+.button.active {
+  transform: scale(0.95);
+  opacity: 0.8;
 }
 
 footer {

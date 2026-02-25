@@ -129,3 +129,58 @@ const getOperator = (operation) => {
       return null;
   }
 };
+
+document.addEventListener("keydown", (event) => {
+  const key = event.key;
+
+  if (
+    !isNaN(parseInt(key)) ||
+    ["+", "-", "*", "/", "Enter", "=", "Escape", "Backspace", "."].includes(key)
+  ) {
+    event.preventDefault();
+  }
+
+  let button = null;
+
+  if (!isNaN(parseInt(key))) {
+    button = Array.from(buttons).find((btn) => btn.value === key);
+  } else if (key === "+") {
+    button = Array.from(buttons).find((btn) => btn.value === "add");
+  } else if (key === "-") {
+    button = Array.from(buttons).find((btn) => btn.value === "subtract");
+  } else if (key === "*") {
+    button = Array.from(buttons).find((btn) => btn.value === "multiply");
+  } else if (key === "/") {
+    button = Array.from(buttons).find((btn) => btn.value === "divide");
+  } else if (key === "Enter" || key === "=") {
+    button = Array.from(buttons).find((btn) => btn.value === "equal");
+  } else if (key === "Escape") {
+    button = Array.from(buttons).find((btn) => btn.value === "clear");
+  } else if (key === "Backspace") {
+    if (next !== null && operation && operation !== "equal") {
+      if (next.length > 1) {
+        next = next.slice(0, -1);
+      } else {
+        next = null;
+      }
+      display.textContent = next
+        ? current + getOperator(operation) + next
+        : current + getOperator(operation);
+    } else if (current !== null && operation !== "equal") {
+      if (current.length > 1) {
+        current = current.slice(0, -1);
+      } else {
+        current = null;
+      }
+      display.textContent = current || "0";
+    }
+  } else if (key === ".") {
+    button = Array.from(buttons).find((btn) => btn.value === "decimal");
+  }
+
+  if (button) {
+    button.click();
+    button.classList.add("active");
+    setTimeout(() => button.classList.remove("active"), 100);
+  }
+});
